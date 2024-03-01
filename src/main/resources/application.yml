@@ -1,0 +1,46 @@
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      shared:
+        register-health-indicator: true
+        sliding-window-type: count_based
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        slow-call-rate-threshold: 50
+        permitted-number-of-calls-in-half-open-state: 1
+        max-wait-duration-in-half-open-state:
+          seconds: 10
+        wait-duration-in-open-state:
+          seconds: 10
+        slow-call-duration-threshold:
+          seconds: 2
+        writable-stack-trace-enabled: true
+        automatic-transition-from-open-to-half-open-enabled: true
+    instances:
+      example:
+        base-config: shared
+  timelimiter:
+    configs:
+      shared:
+        timeout-duration:
+          seconds: 2
+        cancel-running-future: true
+    instances:
+      example:
+        base-config: shared
+
+springdoc:
+  show-actuator: false
+  swagger-ui:
+    enabled: true
+    tags-sorter: alpha
+    operations-sorter: method
+    doc-expansion: false
+  override-with-generic-response: false
+  default-consumes-media-type: "application/json"
+  default-produces-media-type: "application/json"
+server:
+  port: 8080
+  servlet:
+    context-path: /
